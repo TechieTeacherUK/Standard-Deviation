@@ -121,11 +121,12 @@
                     <span class="mr-2 text-2xl">🎥</span> Standard Deviation Explained
                 </h3>
                 
-                <!-- Video Embed Updated -->
+                <!-- Video Embed Updated with JS API for pausing -->
                 <div class="w-full bg-slate-900 rounded-xl overflow-hidden shadow-xl mb-6">
                     <div class="video-container">
                         <iframe 
-                            src="https://www.youtube.com/embed/MRqtXL2WX2M" 
+                            id="theory-video"
+                            src="https://www.youtube.com/embed/MRqtXL2WX2M?enablejsapi=1" 
                             title="Standard Deviation Video Tutorial" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -210,11 +211,25 @@
                 theoryBtn.classList.add('tab-active');
                 practiceBtn.classList.remove('tab-active');
             } else {
+                // Pause YouTube video when switching to practice
+                pauseTheoryVideo();
+                
                 theory.classList.add('hidden');
                 practice.classList.remove('hidden');
                 theoryBtn.classList.remove('tab-active');
                 practiceBtn.classList.add('tab-active');
                 if (!currentQ.answer) newQuestion();
+            }
+        }
+
+        function pauseTheoryVideo() {
+            const iframe = document.getElementById('theory-video');
+            if (iframe) {
+                iframe.contentWindow.postMessage(JSON.stringify({
+                    "event": "command",
+                    "func": "pauseVideo",
+                    "args": ""
+                }), "*");
             }
         }
 
@@ -225,7 +240,6 @@
             document.getElementById('numeric-input-wrapper').classList.remove('hidden');
             document.getElementById('mcq-wrapper').classList.add('hidden');
             
-            // Reset MCQ button styles if needed or simply clear the container
             document.getElementById('mcq-wrapper').innerHTML = '';
 
             const choice = Math.floor(Math.random() * 4) + 1;
@@ -258,7 +272,7 @@
                 type: 'numeric',
                 answer: parseFloat(sigma.toFixed(2)),
                 solution: `
-                    <p><strong>Step 1: Calculate Mean ($\bar{x}$)</strong><br> Sum = ${sum}. $\bar{x} = ${sum} / ${n} = ${mean.toFixed(2)}$.</p>
+                    <p><strong>Step 1: Calculate Mean ($\bar{x}$)</strong><br> Sum = $${sum}$. $\bar{x} = ${sum} / ${n} = ${mean.toFixed(2)}$.</p>
                     <p><strong>Step 2: Average of Squares</strong><br> $(${data.map(d => d+'^2').join(' + ')}) / ${n} = ${sumSq} / ${n} = ${(sumSq/n).toFixed(2)}$.</p>
                     <p><strong>Step 3: Variance ($\sigma^2$)</strong><br> (Mean of Squares) $-$ (Square of Mean) $= ${(sumSq/n).toFixed(2)} - ${mean.toFixed(2)}^2 = ${variance.toFixed(2)}$.</p>
                     <p><strong>Step 4: Standard Deviation ($\sigma$)</strong><br> $\sqrt{\text{Variance}} = \sqrt{${variance.toFixed(2)}} = ${sigma.toFixed(2)}$.</p>
@@ -290,13 +304,13 @@
 
             document.getElementById('question-text').innerText = "Which group is more consistent based on their standard deviation (σ)?";
             document.getElementById('numeric-input-wrapper').classList.add('hidden');
-            document.getElementById('submit-btn').classList.add('hidden'); // MCQ uses direct button clicks
+            document.getElementById('submit-btn').classList.add('hidden'); 
             
             const mcq = document.getElementById('mcq-wrapper');
             mcq.classList.remove('hidden');
             mcq.innerHTML = `
-                <button onclick="handleMCQSelection('Group A')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group A (σ = ${s1})</button>
-                <button onclick="handleMCQSelection('Group B')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group B (σ = ${s2})</button>
+                <button onclick="handleMCQSelection('Group A')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group A ($\sigma = ${s1}$)</button>
+                <button onclick="handleMCQSelection('Group B')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group B ($\sigma = ${s2}$)</button>
             `;
             document.getElementById('data-display').innerHTML = "";
         }
@@ -321,9 +335,9 @@
                 solution: `
                     <p><strong>Working Steps:</strong></p>
                     <ul class="list-disc ml-5 space-y-1">
-                        <li>Total Frequency ($n$) = ${n}</li>
-                        <li>Mean ($\bar{x}$) = ${sumFx} / ${n} = ${mean}</li>
-                        <li>Variance ($\sigma^2$) = (${sumFx2} / ${n}) - ${mean}^2 = ${var_.toFixed(2)}</li>
+                        <li>Total Frequency ($n$) = $${n}$</li>
+                        <li>Mean ($\bar{x}$) = $${sumFx} / ${n} = ${mean}$</li>
+                        <li>Variance ($\sigma^2$) = $(${sumFx2} / ${n}) - ${mean}^2 = ${var_.toFixed(2)}$</li>
                         <li>Standard Deviation ($\sigma$) = $\sqrt{${var_.toFixed(2)}} = ${sigma.toFixed(2)}$</li>
                     </ul>
                 `
@@ -355,11 +369,11 @@
                 solution: `
                     <p><strong>Step-by-Step in Plain English:</strong></p>
                     <ol class="list-decimal ml-5 space-y-3">
-                        <li><strong>Find the gap:</strong> The mean is 29.8g and we are checking 29.5g. The difference is 0.3g.</li>
-                        <li><strong>Convert to Std Devs:</strong> Since 1 standard deviation (σ) is 0.1g, a gap of 0.3g is <strong>exactly 3 standard deviations away</strong>.</li>
-                        <li><strong>Apply the Rule:</strong> We know that <strong>99.7%</strong> of data is within 3 standard deviations of the center.</li>
+                        <li><strong>Find the gap:</strong> The mean is $29.8\text{g}$ and we are checking $29.5\text{g}$. The difference is $0.3\text{g}$.</li>
+                        <li><strong>Convert to Std Devs:</strong> Since 1 standard deviation ($\sigma$) is $0.1\text{g}$, a gap of $0.3\text{g}$ is <strong>exactly 3 standard deviations away</strong>.</li>
+                        <li><strong>Apply the Rule:</strong> We know that <strong>99.7%</strong> of data is within $3$ standard deviations of the center.</li>
                         <li><strong>Find the "Tails":</strong> This leaves $100\% - 99.7\% = 0.3\%$ of data outside that range (in the extreme ends).</li>
-                        <li><strong>Split the difference:</strong> Since we only want the probability of being <em>less than</em> 29.5g (the left tail), we divide that 0.3% by 2.</li>
+                        <li><strong>Split the difference:</strong> Since we only want the probability of being <em>less than</em> $29.5\text{g}$ (the left tail), we divide that $0.3\%$ by $2$.</li>
                         <li><strong>Result:</strong> $0.3\% / 2 = \mathbf{0.15\%}$.</li>
                     </ol>
                 `
@@ -374,7 +388,7 @@
         }
 
         function checkAnswer() {
-            if (currentQ.type === 'mcq') return; // Handled by buttons themselves
+            if (currentQ.type === 'mcq') return;
             
             const userInput = document.getElementById('answer-field').value;
             if (userInput === "") return;
