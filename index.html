@@ -168,13 +168,16 @@
                 </div>
 
                 <div id="input-section" class="space-y-6">
+                    <!-- Numeric Input Wrapper -->
                     <div id="numeric-input-wrapper">
                         <label class="block text-sm font-semibold text-slate-500 mb-2 italic">Your numeric answer (to 2 decimal places):</label>
                         <input type="number" id="answer-field" step="0.01" placeholder="e.g. 1.25" class="w-full md:w-56 text-2xl p-4 border-2 border-slate-200 rounded-2xl focus:border-blue-500 focus:outline-none transition-all">
                     </div>
                     
+                    <!-- MCQ Wrapper -->
                     <div id="mcq-wrapper" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4"></div>
 
+                    <!-- Submit Button -->
                     <button id="submit-btn" onclick="checkAnswer()" class="bg-blue-600 hover:bg-blue-700 text-white w-full md:w-auto px-12 py-4 rounded-2xl font-black text-lg shadow-lg shadow-blue-200 active:scale-95 transition-all">
                         Check My Answer
                     </button>
@@ -221,6 +224,9 @@
             document.getElementById('answer-field').value = '';
             document.getElementById('numeric-input-wrapper').classList.remove('hidden');
             document.getElementById('mcq-wrapper').classList.add('hidden');
+            
+            // Reset MCQ button styles if needed or simply clear the container
+            document.getElementById('mcq-wrapper').innerHTML = '';
 
             const choice = Math.floor(Math.random() * 4) + 1;
             
@@ -249,6 +255,7 @@
             const sigma = Math.sqrt(variance);
 
             currentQ = {
+                type: 'numeric',
                 answer: parseFloat(sigma.toFixed(2)),
                 solution: `
                     <p><strong>Step 1: Calculate Mean ($\bar{x}$)</strong><br> Sum = ${sum}. $\bar{x} = ${sum} / ${n} = ${mean.toFixed(2)}$.</p>
@@ -268,6 +275,7 @@
             const s2 = (Math.random() * 5 + 6).toFixed(1);
             
             currentQ = {
+                type: 'mcq',
                 answer: "Group A",
                 solution: `
                     <p><strong>Plain English Explanation:</strong></p>
@@ -282,11 +290,13 @@
 
             document.getElementById('question-text').innerText = "Which group is more consistent based on their standard deviation (σ)?";
             document.getElementById('numeric-input-wrapper').classList.add('hidden');
+            document.getElementById('submit-btn').classList.add('hidden'); // MCQ uses direct button clicks
+            
             const mcq = document.getElementById('mcq-wrapper');
             mcq.classList.remove('hidden');
             mcq.innerHTML = `
-                <button onclick="checkMCQ('Group A')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group A (σ = ${s1})</button>
-                <button onclick="checkMCQ('Group B')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group B (σ = ${s2})</button>
+                <button onclick="handleMCQSelection('Group A')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group A (σ = ${s1})</button>
+                <button onclick="handleMCQSelection('Group B')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group B (σ = ${s2})</button>
             `;
             document.getElementById('data-display').innerHTML = "";
         }
@@ -306,6 +316,7 @@
             const sigma = Math.sqrt(var_);
 
             currentQ = {
+                type: 'numeric',
                 answer: parseFloat(sigma.toFixed(2)),
                 solution: `
                     <p><strong>Working Steps:</strong></p>
@@ -339,6 +350,7 @@
         function generateEmpirical() {
             document.getElementById('topic-label').innerText = "68-95-99.7 Rule (Ex 4)";
             currentQ = {
+                type: 'numeric',
                 answer: 0.15,
                 solution: `
                     <p><strong>Step-by-Step in Plain English:</strong></p>
@@ -357,13 +369,15 @@
             document.getElementById('data-display').innerHTML = "";
         }
 
-        function checkMCQ(val) {
+        function handleMCQSelection(val) {
             handleResult(val === currentQ.answer);
         }
 
         function checkAnswer() {
+            if (currentQ.type === 'mcq') return; // Handled by buttons themselves
+            
             const userInput = document.getElementById('answer-field').value;
-            if (!userInput) return;
+            if (userInput === "") return;
             const user = parseFloat(userInput);
             handleResult(Math.abs(user - currentQ.answer) < 0.05);
         }
@@ -378,6 +392,8 @@
             fbArea.classList.add(isCorrect ? 'border-green-200' : 'border-red-200');
             
             document.getElementById('submit-btn').classList.add('hidden');
+            document.getElementById('mcq-wrapper').classList.add('hidden');
+            document.getElementById('numeric-input-wrapper').classList.add('hidden');
             
             if (isCorrect) {
                 msg.innerText = "Correct! Great work.";
@@ -388,6 +404,7 @@
             }
             
             sol.innerHTML = currentQ.solution;
+            fbArea.classList.remove('hidden');
             renderMath();
         }
 
