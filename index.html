@@ -220,33 +220,38 @@
 
         const n = 5;
         const data = Array.from({ length: n }, () => Math.floor(Math.random() * 30) + 10);
-        const sum  = data.reduce((a, b) => a + b, 0);
-        const mean = sum / n;
-        const sumSq = data.reduce((a, b) => a + b * b, 0);
-        const variance = (sumSq / n) - (mean * mean);
-        const sigma = Math.sqrt(variance);
+        const sum   = data.reduce((a, b) => a + b, 0);
+        const mean  = sum / n;                                    // exact (integer sum / integer n)
+        const sumSq = data.reduce((a, b) => a + b * b, 0);       // exact integer
+        const meanSqPerN = sumSq / n;                             // exact
+        const variance   = meanSqPerN - mean * mean;              // exact
+        const sigma      = Math.sqrt(variance);
 
-        const meanFixed    = mean.toFixed(2);
-        const sumSqPerN    = (sumSq / n).toFixed(2);
-        const varFixed     = variance.toFixed(2);
+        // Round only at the display stage — compute answer from exact values
+        const meanFixed    = mean.toFixed(4);
+        const sumSqPerNFix = meanSqPerN.toFixed(4);
+        const varFixed     = variance.toFixed(4);
         const sigmaFixed   = sigma.toFixed(2);
-        const squareTerms  = data.map(d => d + '^2').join(' + ');
+
+        // Proper LaTeX: d^{2} not d^2 in a string
+        const squareTerms = data.map(d => `${d}^{2}`).join(' + ');
+        const squaredVals = data.map(d => d * d).join(' + ');
 
         currentQ = {
             type: 'numeric',
             answer: parseFloat(sigmaFixed),
             solution: `
                 <p><strong>Step 1 — Mean (\\(\\bar{x}\\))</strong><br>
-                Sum \\(= ${sum}\\). \\(\\bar{x} = \\dfrac{${sum}}{${n}} = ${meanFixed}\\).</p>
+                \\(\\bar{x} = \\dfrac{${sum}}{${n}} = ${meanFixed}\\)</p>
 
-                <p><strong>Step 2 — Mean of squares</strong><br>
-                \\(\\dfrac{${squareTerms}}{${n}} = \\dfrac{${sumSq}}{${n}} = ${sumSqPerN}\\)</p>
+                <p><strong>Step 2 — Mean of squares \\(\\left(\\dfrac{\\sum x^2}{n}\\right)\\)</strong><br>
+                \\(\\dfrac{${squareTerms}}{${n}} = \\dfrac{${squaredVals}}{${n}} = \\dfrac{${sumSq}}{${n}} = ${sumSqPerNFix}\\)</p>
 
                 <p><strong>Step 3 — Variance (\\(\\sigma^2\\))</strong><br>
-                \\(\\sigma^2 = ${sumSqPerN} - ${meanFixed}^2 = ${varFixed}\\)</p>
+                \\(\\sigma^2 = \\dfrac{\\sum x^2}{n} - \\bar{x}^2 = ${sumSqPerNFix} - ${meanFixed}^2 = ${varFixed}\\)</p>
 
                 <p><strong>Step 4 — Standard deviation (\\(\\sigma\\))</strong><br>
-                \\(\\sigma = \\sqrt{${varFixed}} = ${sigmaFixed}\\)</p>
+                \\(\\sigma = \\sqrt{${varFixed}} = \\mathbf{${sigmaFixed}}\\)</p>
             `
         };
 
@@ -300,10 +305,12 @@
     function generateGroupedData() {
         document.getElementById('topic-label').innerText = 'Grouped Data (Ex 3)';
 
-        const f = [10, 20, 15, 5];
-        const x = [2.5, 7.5, 12.5, 17.5];
+        // Randomise frequencies so it's a different question each time
         const intervals = ['0 – 5', '5 – 10', '10 – 15', '15 – 20'];
-        const n = f.reduce((a, b) => a + b, 0);   // 50
+        const x = [2.5, 7.5, 12.5, 17.5];
+        // Random frequencies between 5 and 25, ensuring total is reasonable
+        const f = intervals.map(() => Math.floor(Math.random() * 21) + 5);
+        const n = f.reduce((a, b) => a + b, 0);
 
         let sumFx = 0, sumFx2 = 0;
         for (let i = 0; i < 4; i++) {
@@ -314,22 +321,59 @@
         const var_  = (sumFx2 / n) - mean * mean;
         const sigma = Math.sqrt(var_);
 
-        const meanFixed  = mean.toFixed(2);
-        const varFixed   = var_.toFixed(2);
+        // Use 6dp for variance — eliminates the sqrt rounding edge case
+        const meanFixed  = mean.toFixed(4);
+        const varFixed   = var_.toFixed(6);
         const sigmaFixed = sigma.toFixed(2);
+
+        // Build an fx and fx² column for the solution table
+        const fxVals  = f.map((fi, i) => fi * x[i]);
+        const fx2Vals = f.map((fi, i) => fi * x[i] * x[i]);
 
         currentQ = {
             type: 'numeric',
             answer: parseFloat(sigmaFixed),
             solution: `
-                <p><strong>Working steps:</strong></p>
-                <ul class="list-disc ml-5 space-y-1">
-                    <li>Total frequency \\(n = ${n}\\)</li>
-                    <li>\\(\\sum fx = ${sumFx}\\), so \\(\\bar{x} = \\dfrac{${sumFx}}{${n}} = ${meanFixed}\\)</li>
-                    <li>\\(\\sum fx^2 = ${sumFx2}\\)</li>
-                    <li>Variance: \\(\\sigma^2 = \\dfrac{${sumFx2}}{${n}} - ${meanFixed}^2 = ${varFixed}\\)</li>
-                    <li>\\(\\sigma = \\sqrt{${varFixed}} = ${sigmaFixed}\\)</li>
-                </ul>
+                <p><strong>Step 1 — Build the table and find \\(\\sum fx\\) and \\(\\sum fx^2\\)</strong></p>
+                <div class="overflow-x-auto">
+                <table class="text-sm border border-slate-300 rounded my-2 w-full">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="p-2 border">Interval</th>
+                            <th class="p-2 border">\\(f\\)</th>
+                            <th class="p-2 border">\\(x\\)</th>
+                            <th class="p-2 border">\\(fx\\)</th>
+                            <th class="p-2 border">\\(fx^2\\)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${intervals.map((iv, i) => `
+                        <tr>
+                            <td class="p-2 border text-center">${iv}</td>
+                            <td class="p-2 border text-center">${f[i]}</td>
+                            <td class="p-2 border text-center">${x[i]}</td>
+                            <td class="p-2 border text-center">${fxVals[i]}</td>
+                            <td class="p-2 border text-center">${fx2Vals[i]}</td>
+                        </tr>`).join('')}
+                        <tr class="font-bold bg-slate-50">
+                            <td class="p-2 border text-center">Total</td>
+                            <td class="p-2 border text-center">${n}</td>
+                            <td class="p-2 border text-center">—</td>
+                            <td class="p-2 border text-center">${sumFx}</td>
+                            <td class="p-2 border text-center">${sumFx2}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                <p><strong>Step 2 — Mean</strong><br>
+                \\(\\bar{x} = \\dfrac{\\sum fx}{n} = \\dfrac{${sumFx}}{${n}} = ${meanFixed}\\)</p>
+
+                <p><strong>Step 3 — Variance</strong><br>
+                \\(\\sigma^2 = \\dfrac{\\sum fx^2}{n} - \\bar{x}^2 = \\dfrac{${sumFx2}}{${n}} - ${meanFixed}^2 = ${varFixed}\\)</p>
+
+                <p><strong>Step 4 — Standard deviation</strong><br>
+                \\(\\sigma = \\sqrt{${varFixed}} = \\mathbf{${sigmaFixed}}\\)</p>
             `
         };
 
@@ -363,7 +407,7 @@
 
         currentQ = {
             type: 'numeric',
-            answer: 0.15,
+            answer: 0.15,   // hardcoded — avoids (100 - 99.7) / 2 floating point drift
             solution: `
                 <p><strong>Step-by-step explanation:</strong></p>
                 <ol class="list-decimal ml-5 space-y-3">
