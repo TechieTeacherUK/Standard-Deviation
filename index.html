@@ -107,35 +107,68 @@
                     <span class="mr-2 text-2xl">📊</span> The 68-95-99.7 Rule
                 </h3>
                 
-                <!-- SVG Diagram -->
-                <div class="w-full py-4 flex justify-center">
-                    <svg viewBox="0 0 400 160" class="max-w-md w-full">
-                        <!-- Curve -->
-                        <path d="M 20,140 Q 100,140 150,80 T 200,20 T 250,80 T 380,140" fill="none" stroke="#d97706" stroke-width="3" />
-                        <!-- Areas -->
-                        <rect x="160" y="20" width="80" height="120" fill="#fef3c7" opacity="0.5" />
-                        <text x="200" y="155" text-anchor="middle" font-size="10" font-weight="bold" fill="#92400e">Mean</text>
-                        <line x1="200" y1="20" x2="200" y2="140" stroke="#92400e" stroke-dasharray="4" />
-                        <!-- Brackets/Labels -->
-                        <line x1="160" y1="100" x2="240" y2="100" stroke="#b45309" stroke-width="1" />
-                        <text x="200" y="95" text-anchor="middle" font-size="12" font-weight="black" fill="#b45309">68%</text>
-                        <text x="160" y="155" text-anchor="middle" font-size="9" fill="#b45309">-1σ</text>
-                        <text x="240" y="155" text-anchor="middle" font-size="9" fill="#b45309">+1σ</text>
+                <!-- SVG Diagram (Normal Distribution) -->
+                <div class="w-full py-6 flex justify-center bg-slate-50 rounded-xl mb-4">
+                    <svg viewBox="0 0 500 220" class="max-w-xl w-full font-sans overflow-visible">
+                        <!-- Shaded Areas -->
+                        <!-- 99.7% area (Green) -->
+                        <path d="M 50,180 Q 150,180 200,100 T 250,20 T 300,100 T 450,180 L 50,180 Z" fill="#dcfce7" />
+                        <!-- 95% area (Blue) -->
+                        <path d="M 115,155 Q 165,155 200,100 T 250,20 T 300,100 T 385,155 L 115,155 Z" fill="#dbeafe" />
+                        <!-- 68% area (Red) -->
+                        <path d="M 183,115 Q 215,115 250,20 T 317,115 L 183,115 Z" fill="#fee2e2" />
+                        
+                        <!-- The Curve Outline -->
+                        <path d="M 20,180 Q 150,180 200,100 T 250,20 T 300,100 T 480,180" fill="none" stroke="#475569" stroke-width="2.5" />
+                        
+                        <!-- Center Line (Mean) -->
+                        <line x1="250" y1="20" x2="250" y2="180" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="3" />
+                        <text x="250" y="195" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">Mean (μ)</text>
+
+                        <!-- Standard Deviation Ticks & Labels -->
+                        <!-- -3 to +3 -->
+                        <g font-size="10" fill="#64748b" text-anchor="middle">
+                            <text x="50" y="195">μ - 3σ</text>
+                            <text x="115" y="195">μ - 2σ</text>
+                            <text x="183" y="195">μ - σ</text>
+                            <text x="317" y="195">μ + σ</text>
+                            <text x="385" y="195">μ + 2σ</text>
+                            <text x="450" y="195">μ + 3σ</text>
+                        </g>
+
+                        <!-- Horizontal Percentage Brackets -->
+                        <!-- 68% -->
+                        <line x1="183" y1="80" x2="317" y2="80" stroke="#b91c1c" stroke-width="1.5" />
+                        <line x1="183" y1="75" x2="183" y2="85" stroke="#b91c1c" stroke-width="1.5" />
+                        <line x1="317" y1="75" x2="317" y2="85" stroke="#b91c1c" stroke-width="1.5" />
+                        <text x="250" y="75" text-anchor="middle" font-size="14" font-weight="900" fill="#b91c1c">68%</text>
+
+                        <!-- 95% -->
+                        <line x1="115" y1="130" x2="385" y2="130" stroke="#1d4ed8" stroke-width="1.5" />
+                        <line x1="115" y1="125" x2="115" y2="135" stroke="#1d4ed8" stroke-width="1.5" />
+                        <line x1="385" y1="125" x2="385" y2="135" stroke="#1d4ed8" stroke-width="1.5" />
+                        <text x="250" y="125" text-anchor="middle" font-size="14" font-weight="900" fill="#1d4ed8">95%</text>
+
+                        <!-- 99.7% -->
+                        <line x1="50" y1="165" x2="450" y2="165" stroke="#15803d" stroke-width="1.5" />
+                        <line x1="50" y1="160" x2="50" y2="170" stroke="#15803d" stroke-width="1.5" />
+                        <line x1="450" y1="160" x2="450" y2="170" stroke="#15803d" stroke-width="1.5" />
+                        <text x="250" y="160" text-anchor="middle" font-size="14" font-weight="900" fill="#15803d">99.7%</text>
                     </svg>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-100">
-                        <p class="text-xl font-black text-amber-900">68%</p>
-                        <p class="text-xs font-bold">Within 1 Std Dev</p>
+                    <div class="p-3 bg-red-50 rounded-xl border border-red-100">
+                        <p class="text-xl font-black text-red-900">68%</p>
+                        <p class="text-xs font-bold text-red-700">Within 1 Std Dev</p>
                     </div>
-                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-100">
-                        <p class="text-xl font-black text-amber-900">95%</p>
-                        <p class="text-xs font-bold">Within 2 Std Devs</p>
+                    <div class="p-3 bg-blue-50 rounded-xl border border-blue-100">
+                        <p class="text-xl font-black text-blue-900">95%</p>
+                        <p class="text-xs font-bold text-blue-700">Within 2 Std Devs</p>
                     </div>
-                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-100">
-                        <p class="text-xl font-black text-amber-900">99.7%</p>
-                        <p class="text-xs font-bold">Within 3 Std Devs</p>
+                    <div class="p-3 bg-green-50 rounded-xl border border-green-100">
+                        <p class="text-xl font-black text-green-900">99.7%</p>
+                        <p class="text-xs font-bold text-green-700">Within 3 Std Devs</p>
                     </div>
                 </div>
             </div>
