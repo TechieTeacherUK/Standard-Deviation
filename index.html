@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AS Maths: Standard Deviation Master</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Improved MathJax Configuration -->
     <script>
         window.MathJax = {
             tex: {
@@ -13,14 +12,7 @@
                 displayMath: [['$$', '$$'], ['\\[', '\\]']],
                 processEscapes: true
             },
-            options: {
-                enableMenu: false
-            },
-            startup: {
-                pageReady: () => {
-                    return MathJax.startup.defaultPageReady();
-                }
-            }
+            options: { enableMenu: false }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -37,10 +29,10 @@
             border-bottom: 4px solid #1e40af;
             color: #1e40af;
         }
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
         .video-container {
             position: relative;
@@ -51,339 +43,407 @@
         }
         .video-container iframe {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
         }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen font-sans">
 
-    <div class="max-w-4xl mx-auto p-4 md:p-8">
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-black text-blue-900">Standard Deviation Tool</h1>
-            <p class="text-slate-600 mt-2 font-medium">"The average distance from the average"</p>
-        </div>
+<div class="max-w-4xl mx-auto p-4 md:p-8">
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-black text-blue-900">Standard Deviation Tool</h1>
+        <p class="text-slate-600 mt-2 font-medium">"The average distance from the average"</p>
+    </div>
 
-        <div class="flex border-b border-slate-200 mb-8 bg-white rounded-t-2xl px-4 pt-4 shadow-sm">
-            <button id="tab-theory-btn" onclick="switchTab('theory')" class="px-6 py-3 font-bold text-slate-500 transition-all tab-active">
-                📖 Theory & Formulas
-            </button>
-            <button id="tab-practice-btn" onclick="switchTab('practice')" class="px-6 py-3 font-bold text-slate-500 transition-all">
-                🎯 Practice Questions
-            </button>
-        </div>
+    <div class="flex border-b border-slate-200 mb-8 bg-white rounded-t-2xl px-4 pt-4 shadow-sm">
+        <button id="tab-theory-btn" onclick="switchTab('theory')" class="px-6 py-3 font-bold text-slate-500 transition-all tab-active">
+            📖 Theory &amp; Formulas
+        </button>
+        <button id="tab-practice-btn" onclick="switchTab('practice')" class="px-6 py-3 font-bold text-slate-500 transition-all">
+            🎯 Practice Questions
+        </button>
+    </div>
 
-        <!-- TAB 1: THEORY -->
-        <div id="tab-theory" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="text-xl font-bold text-blue-800 mb-4 flex items-center">
-                        <span class="mr-2 text-2xl">📝</span> The Formulas
-                    </h3>
-                    <div class="space-y-4">
-                        <div>
-                            <p class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Raw Data</p>
-                            <div class="bg-slate-50 p-3 rounded-xl text-center text-lg font-mono">
-                                $$\sigma = \sqrt{\frac{\sum x^2}{n} - \bar{x}^2}$$
-                            </div>
-                        </div>
-                        <div>
-                            <p class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Grouped Data</p>
-                            <div class="bg-slate-50 p-3 rounded-xl text-center text-lg font-mono">
-                                $$\sigma = \sqrt{\frac{\sum fx^2}{n} - \bar{x}^2}$$
-                            </div>
+    <!-- TAB 1: THEORY -->
+    <div id="tab-theory" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h3 class="text-xl font-bold text-blue-800 mb-4 flex items-center">
+                    <span class="mr-2 text-2xl">📝</span> The Formulas
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Raw Data</p>
+                        <div class="bg-slate-50 p-3 rounded-xl text-center text-lg font-mono">
+                            $$\sigma = \sqrt{\frac{\sum x^2}{n} - \bar{x}^2}$$
                         </div>
                     </div>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="text-xl font-bold text-green-800 mb-4 flex items-center">
-                        <span class="mr-2 text-2xl">⚖️</span> Consistency
-                    </h3>
-                    <ul class="space-y-3 text-slate-700">
-                        <li class="flex items-start">
-                            <span class="text-green-500 mr-2 font-bold">✔</span>
-                            <span><strong>Small $\sigma$:</strong> Consistent data.</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-red-500 mr-2 font-bold">✘</span>
-                            <span><strong>Large $\sigma$:</strong> Inconsistent data.</span>
-                        </li>
-                    </ul>
+                    <div>
+                        <p class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Grouped Data</p>
+                        <div class="bg-slate-50 p-3 rounded-xl text-center text-lg font-mono">
+                            $$\sigma = \sqrt{\frac{\sum fx^2}{n} - \bar{x}^2}$$
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                <h3 class="text-xl font-bold text-amber-800 mb-4 flex items-center">
-                    <span class="mr-2 text-2xl">🎥</span> Video Tutorial
+                <h3 class="text-xl font-bold text-green-800 mb-4 flex items-center">
+                    <span class="mr-2 text-2xl">⚖️</span> Consistency
                 </h3>
-                <div class="w-full bg-slate-900 rounded-xl overflow-hidden shadow-xl mb-6">
-                    <div class="video-container">
-                        <iframe 
-                            id="theory-video"
-                            src="https://www.youtube.com/embed/MRqtXL2WX2M?enablejsapi=1" 
-                            title="Standard Deviation Video" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                </div>
+                <ul class="space-y-3 text-slate-700">
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-2 font-bold">✔</span>
+                        <span><strong>Small \(\sigma\):</strong> Consistent data.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-red-500 mr-2 font-bold">✘</span>
+                        <span><strong>Large \(\sigma\):</strong> Inconsistent data.</span>
+                    </li>
+                </ul>
             </div>
         </div>
 
-        <!-- TAB 2: PRACTICE -->
-        <div id="tab-practice" class="hidden">
-            <div class="bg-white rounded-3xl shadow-xl p-8 border border-slate-100">
-                <div class="flex justify-between items-center mb-6 border-b pb-4">
-                    <span id="topic-label" class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic">Question Category</span>
-                    <button onclick="newQuestion()" class="text-blue-600 hover:text-blue-800 font-bold text-sm flex items-center">
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                        New Question
-                    </button>
-                </div>
-
-                <div id="question-area" class="mb-8 min-h-[120px]">
-                    <h2 id="question-text" class="text-2xl font-bold text-slate-800 mb-4 leading-snug"></h2>
-                    <div id="data-display" class="flex flex-wrap gap-3"></div>
-                </div>
-
-                <div id="input-section" class="space-y-6">
-                    <div id="numeric-input-wrapper">
-                        <label class="block text-sm font-semibold text-slate-500 mb-2 italic">Your numeric answer (to 2 decimal places):</label>
-                        <input type="number" id="answer-field" step="0.01" placeholder="e.g. 1.25" class="w-full md:w-56 text-2xl p-4 border-2 border-slate-200 rounded-2xl focus:border-blue-500 focus:outline-none transition-all">
-                    </div>
-                    
-                    <div id="mcq-wrapper" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-
-                    <button id="submit-btn" onclick="checkAnswer()" class="bg-blue-600 hover:bg-blue-700 text-white w-full md:w-auto px-12 py-4 rounded-2xl font-black text-lg shadow-lg shadow-blue-200 active:scale-95 transition-all">
-                        Check My Answer
-                    </button>
-                </div>
-
-                <div id="feedback-area" class="mt-8 hidden p-8 rounded-2xl border-2">
-                    <div id="status-message" class="text-2xl font-black mb-4"></div>
-                    <div id="solution-content" class="solution-box text-slate-700 space-y-4"></div>
-                    <button onclick="newQuestion()" class="mt-8 bg-slate-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-black transition-all">
-                        Next Problem
-                    </button>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h3 class="text-xl font-bold text-amber-800 mb-4 flex items-center">
+                <span class="mr-2 text-2xl">🎥</span> Video Tutorial
+            </h3>
+            <div class="w-full bg-slate-900 rounded-xl overflow-hidden shadow-xl mb-6">
+                <div class="video-container">
+                    <iframe
+                        id="theory-video"
+                        src="https://www.youtube.com/embed/MRqtXL2WX2M?enablejsapi=1"
+                        title="Standard Deviation Video"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        let currentQ = {};
+    <!-- TAB 2: PRACTICE -->
+    <div id="tab-practice" class="hidden">
+        <div class="bg-white rounded-3xl shadow-xl p-8 border border-slate-100">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <span id="topic-label" class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic">Question Category</span>
+                <button onclick="newQuestion()" class="text-blue-600 hover:text-blue-800 font-bold text-sm flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    New Question
+                </button>
+            </div>
 
-        function switchTab(tab) {
-            const theory = document.getElementById('tab-theory');
-            const practice = document.getElementById('tab-practice');
-            const theoryBtn = document.getElementById('tab-theory-btn');
-            const practiceBtn = document.getElementById('tab-practice-btn');
+            <div id="question-area" class="mb-8 min-h-[120px]">
+                <h2 id="question-text" class="text-2xl font-bold text-slate-800 mb-4 leading-snug"></h2>
+                <div id="data-display" class="flex flex-wrap gap-3"></div>
+            </div>
 
-            if (tab === 'theory') {
-                theory.classList.remove('hidden');
-                practice.classList.add('hidden');
-                theoryBtn.classList.add('tab-active');
-                practiceBtn.classList.remove('tab-active');
-            } else {
-                pauseTheoryVideo();
-                theory.classList.add('hidden');
-                practice.classList.remove('hidden');
-                theoryBtn.classList.remove('tab-active');
-                practiceBtn.classList.add('tab-active');
-                if (!currentQ.answer) newQuestion();
-            }
-        }
-
-        function pauseTheoryVideo() {
-            const iframe = document.getElementById('theory-video');
-            if (iframe) {
-                iframe.contentWindow.postMessage(JSON.stringify({
-                    "event": "command",
-                    "func": "pauseVideo",
-                    "args": ""
-                }), "*");
-            }
-        }
-
-        function renderMath() {
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise();
-            }
-        }
-
-        function generateRawData() {
-            document.getElementById('topic-label').innerText = "Raw Data (Ex 1)";
-            const n = 5;
-            const data = Array.from({length: n}, () => Math.floor(Math.random() * 30) + 10);
-            const sum = data.reduce((a, b) => a + b, 0);
-            const mean = sum / n;
-            const sumSq = data.reduce((a, b) => a + (b * b), 0);
-            const variance = (sumSq / n) - (mean * mean);
-            const sigma = Math.sqrt(variance);
-
-            currentQ = {
-                type: 'numeric',
-                answer: parseFloat(sigma.toFixed(2)),
-                solution: `
-                    <p><strong>Step 1: Calculate Mean ($\bar{x}$)</strong><br> Sum = $${sum}$. $\bar{x} = ${sum} / ${n} = ${mean.toFixed(2)}$.</p>
-                    <p><strong>Step 2: Average of Squares</strong><br> $(${data.map(d => d+'^2').join(' + ')}) / ${n} = ${sumSq} / ${n} = ${(sumSq/n).toFixed(2)}$.</p>
-                    <p><strong>Step 3: Variance ($\sigma^2$)</strong><br> $(\text{Mean of Squares}) - (\text{Square of Mean}) = ${(sumSq/n).toFixed(2)} - ${mean.toFixed(2)}^2 = ${variance.toFixed(2)}$.</p>
-                    <p><strong>Step 4: Standard Deviation ($\sigma$)</strong><br> $\\sqrt{\\text{Variance}} = \\sqrt{${variance.toFixed(2)}} = ${sigma.toFixed(2)}$.</p>
-                `
-            };
-
-            document.getElementById('question-text').innerText = "Calculate the standard deviation (σ) for the following data set:";
-            document.getElementById('data-display').innerHTML = data.map(d => `<div class="bg-blue-50 border-2 border-blue-200 px-6 py-3 rounded-2xl font-mono text-xl text-blue-800 font-bold shadow-sm">${d}</div>`).join('');
-        }
-
-        function generateConsistency() {
-            document.getElementById('topic-label').innerText = "Consistency (Ex 2)";
-            const s1 = (Math.random() * 2 + 1).toFixed(1);
-            const s2 = (Math.random() * 5 + 6).toFixed(1);
-            
-            currentQ = {
-                type: 'mcq',
-                answer: "Group A",
-                solution: `
-                    <p><strong>Explanation:</strong></p>
-                    <p>Standard deviation measures data spread.</p>
-                    <ul class="list-disc ml-5 space-y-2">
-                        <li>Group A: $\\sigma = ${s1}$</li>
-                        <li>Group B: $\\sigma = ${s2}$</li>
-                    </ul>
-                    <p>Since Group A has a <strong>smaller</strong> standard deviation, its data points are closer to the mean, making it more consistent.</p>
-                `
-            };
-
-            document.getElementById('question-text').innerText = "Which group is more consistent based on their standard deviation (σ)?";
-            document.getElementById('numeric-input-wrapper').classList.add('hidden');
-            document.getElementById('submit-btn').classList.add('hidden'); 
-            const mcq = document.getElementById('mcq-wrapper');
-            mcq.classList.remove('hidden');
-            mcq.innerHTML = `
-                <button onclick="handleMCQSelection('Group A')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group A ($\sigma = ${s1}$)</button>
-                <button onclick="handleMCQSelection('Group B')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group B ($\sigma = ${s2}$)</button>
-            `;
-            document.getElementById('data-display').innerHTML = "";
-        }
-
-        function generateGroupedData() {
-            document.getElementById('topic-label').innerText = "Grouped Data (Ex 3)";
-            const f = [10, 20, 15, 5];
-            const x = [2.5, 7.5, 12.5, 17.5];
-            const n = 50;
-            let sumFx = 0; let sumFx2 = 0;
-            for(let i=0; i<4; i++) {
-                sumFx += f[i] * x[i];
-                sumFx2 += f[i] * (x[i]**2);
-            }
-            const mean = sumFx / n;
-            const var_ = (sumFx2/n) - (mean**2);
-            const sigma = Math.sqrt(var_);
-
-            currentQ = {
-                type: 'numeric',
-                answer: parseFloat(sigma.toFixed(2)),
-                solution: `
-                    <p><strong>Working Steps:</strong></p>
-                    <ul class="list-disc ml-5 space-y-1">
-                        <li>Total Frequency ($n$) = $${n}$</li>
-                        <li>Mean ($\bar{x}$) = $${sumFx} / ${n} = ${mean}$</li>
-                        <li>Variance ($\sigma^2$) = $(${sumFx2} / ${n}) - ${mean}^2 = ${var_.toFixed(2)}$</li>
-                        <li>Standard Deviation ($\sigma$) = $\\sqrt{${var_.toFixed(2)}} = ${sigma.toFixed(2)}$</li>
-                    </ul>
-                `
-            };
-
-            document.getElementById('question-text').innerText = "Estimate the standard deviation (σ) from this grouped table:";
-            document.getElementById('data-display').innerHTML = `
-                <div class="w-full overflow-hidden border border-slate-200 rounded-xl">
-                    <table class="w-full text-left bg-white">
-                        <thead class="bg-slate-50 border-b">
-                            <tr><th class="p-3">Interval</th><th class="p-3">Freq ($f$)</th><th class="p-3">Midpoint ($x$)</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td class="p-3 border-b">0-5</td><td class="p-3 border-b">10</td><td class="p-3 border-b">2.5</td></tr>
-                            <tr><td class="p-3 border-b">5-10</td><td class="p-3 border-b">20</td><td class="p-3 border-b">7.5</td></tr>
-                        </tbody>
-                    </table>
+            <div id="input-section" class="space-y-6">
+                <div id="numeric-input-wrapper">
+                    <label class="block text-sm font-semibold text-slate-500 mb-2 italic">Your numeric answer (to 2 decimal places):</label>
+                    <input type="number" id="answer-field" step="0.01" placeholder="e.g. 1.25"
+                        class="w-full md:w-56 text-2xl p-4 border-2 border-slate-200 rounded-2xl focus:border-blue-500 focus:outline-none transition-all">
                 </div>
-            `;
-        }
 
-        function generateEmpirical() {
-            document.getElementById('topic-label').innerText = "68-95-99.7 Rule (Ex 4)";
-            currentQ = {
-                type: 'numeric',
-                answer: 0.15,
-                solution: `
-                    <p><strong>Step-by-Step Explanation:</strong></p>
-                    <ol class="list-decimal ml-5 space-y-3">
-                        <li><strong>Find the gap:</strong> The mean is $29.8\text{g}$ and we check $29.5\text{g}$. Gap $= 0.3\text{g}$.</li>
-                        <li><strong>Standard Deviations:</strong> Since $1\sigma = 0.1\text{g}$, the gap is exactly $3\sigma$.</li>
-                        <li><strong>The Rule:</strong> $99.7\%$ of data is within $\pm 3\sigma$.</li>
-                        <li><strong>The Tail:</strong> Outside $\pm 3\sigma$ is $100\% - 99.7\% = 0.3\%$.</li>
-                        <li><strong>One Side:</strong> We only want the left tail: $0.3\% / 2 = 0.15\%$.</li>
-                    </ol>
-                `
-            };
-            document.getElementById('question-text').innerText = "Mean = 29.8g, σ = 0.1g. Using the 68-95-99.7 rule, what % are less than 29.5g?";
-            document.getElementById('data-display').innerHTML = "";
-        }
+                <div id="mcq-wrapper" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4"></div>
 
-        function newQuestion() {
-            document.getElementById('feedback-area').classList.add('hidden');
-            document.getElementById('submit-btn').classList.remove('hidden');
-            document.getElementById('answer-field').value = '';
-            document.getElementById('numeric-input-wrapper').classList.remove('hidden');
-            document.getElementById('mcq-wrapper').classList.add('hidden');
-            document.getElementById('mcq-wrapper').innerHTML = '';
+                <button id="submit-btn" onclick="checkAnswer()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white w-full md:w-auto px-12 py-4 rounded-2xl font-black text-lg shadow-lg shadow-blue-200 active:scale-95 transition-all">
+                    Check My Answer
+                </button>
+            </div>
 
-            const choice = Math.floor(Math.random() * 4) + 1;
-            if (choice === 1) generateRawData();
-            else if (choice === 2) generateConsistency();
-            else if (choice === 3) generateGroupedData();
-            else generateEmpirical();
+            <div id="feedback-area" class="mt-8 hidden p-8 rounded-2xl border-2">
+                <div id="status-message" class="text-2xl font-black mb-4"></div>
+                <div id="solution-content" class="solution-box text-slate-700 space-y-4"></div>
+                <button onclick="newQuestion()" class="mt-8 bg-slate-900 text-white px-10 py-3 rounded-xl font-bold hover:bg-black transition-all">
+                    Next Problem
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<script>
+    let currentQ = {};
+
+    // ── Robust MathJax re-render helper ──────────────────────────────────────
+    function renderMath() {
+        // Wait a tick so the DOM has settled, then retypeset
+        setTimeout(() => {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise().catch(err => console.warn('MathJax error:', err));
+            }
+        }, 50);
+    }
+
+    // ── Tab switching ─────────────────────────────────────────────────────────
+    function switchTab(tab) {
+        const theory  = document.getElementById('tab-theory');
+        const practice = document.getElementById('tab-practice');
+        const theoryBtn  = document.getElementById('tab-theory-btn');
+        const practiceBtn = document.getElementById('tab-practice-btn');
+
+        if (tab === 'theory') {
+            theory.classList.remove('hidden');
+            practice.classList.add('hidden');
+            theoryBtn.classList.add('tab-active');
+            practiceBtn.classList.remove('tab-active');
             renderMath();
+        } else {
+            pauseTheoryVideo();
+            theory.classList.add('hidden');
+            practice.classList.remove('hidden');
+            theoryBtn.classList.remove('tab-active');
+            practiceBtn.classList.add('tab-active');
+            if (!currentQ.answer) newQuestion();
         }
+    }
 
-        function handleMCQSelection(val) {
-            handleResult(val === currentQ.answer);
+    function pauseTheoryVideo() {
+        const iframe = document.getElementById('theory-video');
+        if (iframe) {
+            iframe.contentWindow.postMessage(
+                JSON.stringify({ event: 'command', func: 'pauseVideo', args: '' }), '*'
+            );
         }
+    }
 
-        function checkAnswer() {
-            const val = document.getElementById('answer-field').value;
-            if (val === "") return;
-            handleResult(Math.abs(parseFloat(val) - currentQ.answer) < 0.05);
+    // ── Question generators ───────────────────────────────────────────────────
+
+    function generateRawData() {
+        document.getElementById('topic-label').innerText = 'Raw Data (Ex 1)';
+
+        const n = 5;
+        const data = Array.from({ length: n }, () => Math.floor(Math.random() * 30) + 10);
+        const sum  = data.reduce((a, b) => a + b, 0);
+        const mean = sum / n;
+        const sumSq = data.reduce((a, b) => a + b * b, 0);
+        const variance = (sumSq / n) - (mean * mean);
+        const sigma = Math.sqrt(variance);
+
+        const meanFixed    = mean.toFixed(2);
+        const sumSqPerN    = (sumSq / n).toFixed(2);
+        const varFixed     = variance.toFixed(2);
+        const sigmaFixed   = sigma.toFixed(2);
+        const squareTerms  = data.map(d => d + '^2').join(' + ');
+
+        currentQ = {
+            type: 'numeric',
+            answer: parseFloat(sigmaFixed),
+            solution: `
+                <p><strong>Step 1 — Mean (\\(\\bar{x}\\))</strong><br>
+                Sum \\(= ${sum}\\). \\(\\bar{x} = \\dfrac{${sum}}{${n}} = ${meanFixed}\\).</p>
+
+                <p><strong>Step 2 — Mean of squares</strong><br>
+                \\(\\dfrac{${squareTerms}}{${n}} = \\dfrac{${sumSq}}{${n}} = ${sumSqPerN}\\)</p>
+
+                <p><strong>Step 3 — Variance (\\(\\sigma^2\\))</strong><br>
+                \\(\\sigma^2 = ${sumSqPerN} - ${meanFixed}^2 = ${varFixed}\\)</p>
+
+                <p><strong>Step 4 — Standard deviation (\\(\\sigma\\))</strong><br>
+                \\(\\sigma = \\sqrt{${varFixed}} = ${sigmaFixed}\\)</p>
+            `
+        };
+
+        document.getElementById('question-text').innerText = 'Calculate the standard deviation (σ) for the following data set:';
+        document.getElementById('data-display').innerHTML = data
+            .map(d => `<div class="bg-blue-50 border-2 border-blue-200 px-6 py-3 rounded-2xl font-mono text-xl text-blue-800 font-bold shadow-sm">${d}</div>`)
+            .join('');
+    }
+
+    function generateConsistency() {
+        document.getElementById('topic-label').innerText = 'Consistency (Ex 2)';
+
+        const s1 = (Math.random() * 2 + 1).toFixed(1);   // small  → Group A
+        const s2 = (Math.random() * 5 + 6).toFixed(1);   // larger → Group B
+
+        currentQ = {
+            type: 'mcq',
+            answer: 'Group A',
+            solution: `
+                <p><strong>Explanation:</strong></p>
+                <p>Standard deviation measures how spread out the data is.</p>
+                <ul class="list-disc ml-5 space-y-2">
+                    <li>Group A: \\(\\sigma = ${s1}\\)</li>
+                    <li>Group B: \\(\\sigma = ${s2}\\)</li>
+                </ul>
+                <p>Group A has a <strong>smaller</strong> standard deviation, so its values are closer to the mean — making it <strong>more consistent</strong>.</p>
+            `
+        };
+
+        document.getElementById('question-text').innerText =
+            'Which group is more consistent based on their standard deviation (σ)?';
+        document.getElementById('numeric-input-wrapper').classList.add('hidden');
+        document.getElementById('submit-btn').classList.add('hidden');
+        document.getElementById('data-display').innerHTML = '';
+
+        const mcq = document.getElementById('mcq-wrapper');
+        mcq.classList.remove('hidden');
+        // Use \( \) delimiters — safer inside HTML attribute strings
+        mcq.innerHTML = `
+            <button onclick="handleMCQSelection('Group A')"
+                class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">
+                Group A \\(\\sigma = ${s1}\\)
+            </button>
+            <button onclick="handleMCQSelection('Group B')"
+                class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">
+                Group B \\(\\sigma = ${s2}\\)
+            </button>
+        `;
+    }
+
+    function generateGroupedData() {
+        document.getElementById('topic-label').innerText = 'Grouped Data (Ex 3)';
+
+        const f = [10, 20, 15, 5];
+        const x = [2.5, 7.5, 12.5, 17.5];
+        const intervals = ['0 – 5', '5 – 10', '10 – 15', '15 – 20'];
+        const n = f.reduce((a, b) => a + b, 0);   // 50
+
+        let sumFx = 0, sumFx2 = 0;
+        for (let i = 0; i < 4; i++) {
+            sumFx  += f[i] * x[i];
+            sumFx2 += f[i] * x[i] * x[i];
         }
+        const mean  = sumFx / n;
+        const var_  = (sumFx2 / n) - mean * mean;
+        const sigma = Math.sqrt(var_);
 
-        function handleResult(isCorrect) {
-            const fbArea = document.getElementById('feedback-area');
-            const msg = document.getElementById('status-message');
-            const sol = document.getElementById('solution-content');
-            
-            fbArea.classList.remove('hidden', 'bg-green-50', 'bg-red-50', 'border-green-200', 'border-red-200');
-            fbArea.classList.add(isCorrect ? 'bg-green-50' : 'bg-red-50');
-            fbArea.classList.add(isCorrect ? 'border-green-200' : 'border-red-200');
-            
-            document.getElementById('submit-btn').classList.add('hidden');
-            document.getElementById('mcq-wrapper').classList.add('hidden');
-            document.getElementById('numeric-input-wrapper').classList.add('hidden');
-            
-            msg.innerText = isCorrect ? "Correct! Great work." : "Not quite. Here is the logic:";
-            msg.className = isCorrect ? "text-2xl font-black text-green-700 mb-4" : "text-2xl font-black text-red-700 mb-4";
-            
-            sol.innerHTML = currentQ.solution;
-            fbArea.classList.remove('hidden');
-            renderMath();
+        const meanFixed  = mean.toFixed(2);
+        const varFixed   = var_.toFixed(2);
+        const sigmaFixed = sigma.toFixed(2);
+
+        currentQ = {
+            type: 'numeric',
+            answer: parseFloat(sigmaFixed),
+            solution: `
+                <p><strong>Working steps:</strong></p>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li>Total frequency \\(n = ${n}\\)</li>
+                    <li>\\(\\sum fx = ${sumFx}\\), so \\(\\bar{x} = \\dfrac{${sumFx}}{${n}} = ${meanFixed}\\)</li>
+                    <li>\\(\\sum fx^2 = ${sumFx2}\\)</li>
+                    <li>Variance: \\(\\sigma^2 = \\dfrac{${sumFx2}}{${n}} - ${meanFixed}^2 = ${varFixed}\\)</li>
+                    <li>\\(\\sigma = \\sqrt{${varFixed}} = ${sigmaFixed}\\)</li>
+                </ul>
+            `
+        };
+
+        document.getElementById('question-text').innerText =
+            'Estimate the standard deviation (σ) from this grouped frequency table:';
+
+        const rows = intervals.map((iv, i) => `
+            <tr>
+                <td class="p-3 border-b">${iv}</td>
+                <td class="p-3 border-b">${f[i]}</td>
+                <td class="p-3 border-b">${x[i]}</td>
+            </tr>`).join('');
+
+        document.getElementById('data-display').innerHTML = `
+            <div class="w-full overflow-hidden border border-slate-200 rounded-xl">
+                <table class="w-full text-left bg-white">
+                    <thead class="bg-slate-50 border-b">
+                        <tr>
+                            <th class="p-3">Interval</th>
+                            <th class="p-3">Frequency (\\(f\\))</th>
+                            <th class="p-3">Midpoint (\\(x\\))</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            </div>`;
+    }
+
+    function generateEmpirical() {
+        document.getElementById('topic-label').innerText = '68-95-99.7 Rule (Ex 4)';
+
+        currentQ = {
+            type: 'numeric',
+            answer: 0.15,
+            solution: `
+                <p><strong>Step-by-step explanation:</strong></p>
+                <ol class="list-decimal ml-5 space-y-3">
+                    <li><strong>Find the gap:</strong> Mean \\(= 29.8\\text{ g}\\), value \\(= 29.5\\text{ g}\\).
+                        Gap \\(= 0.3\\text{ g}\\).</li>
+                    <li><strong>Count standard deviations:</strong> Since \\(1\\sigma = 0.1\\text{ g}\\),
+                        the gap is exactly \\(3\\sigma\\).</li>
+                    <li><strong>Apply the rule:</strong> \\(99.7\\%\\) of data lies within \\(\\pm 3\\sigma\\).</li>
+                    <li><strong>Outside both tails:</strong> \\(100\\% - 99.7\\% = 0.3\\%\\).</li>
+                    <li><strong>Left tail only:</strong> \\(0.3\\% \\div 2 = 0.15\\%\\).</li>
+                </ol>
+            `
+        };
+
+        document.getElementById('question-text').innerText =
+            'Mean = 29.8 g, σ = 0.1 g. Using the 68-95-99.7 rule, what percentage of items weigh less than 29.5 g?';
+        document.getElementById('data-display').innerHTML = '';
+    }
+
+    // ── New question orchestrator ────────────────────────────────────────────
+    function newQuestion() {
+        document.getElementById('feedback-area').classList.add('hidden');
+        document.getElementById('submit-btn').classList.remove('hidden');
+        document.getElementById('answer-field').value = '';
+        document.getElementById('numeric-input-wrapper').classList.remove('hidden');
+        document.getElementById('mcq-wrapper').classList.add('hidden');
+        document.getElementById('mcq-wrapper').innerHTML = '';
+
+        const choice = Math.floor(Math.random() * 4) + 1;
+        if      (choice === 1) generateRawData();
+        else if (choice === 2) generateConsistency();
+        else if (choice === 3) generateGroupedData();
+        else                   generateEmpirical();
+
+        renderMath();
+    }
+
+    // ── Answer handling ───────────────────────────────────────────────────────
+    function handleMCQSelection(val) {
+        handleResult(val === currentQ.answer);
+    }
+
+    function checkAnswer() {
+        const val = document.getElementById('answer-field').value;
+        if (val === '') return;
+        handleResult(Math.abs(parseFloat(val) - currentQ.answer) < 0.05);
+    }
+
+    function handleResult(isCorrect) {
+        const fbArea = document.getElementById('feedback-area');
+        const msg    = document.getElementById('status-message');
+        const sol    = document.getElementById('solution-content');
+
+        fbArea.classList.remove('hidden', 'bg-green-50', 'bg-red-50', 'border-green-200', 'border-red-200');
+        fbArea.classList.add(isCorrect ? 'bg-green-50'      : 'bg-red-50');
+        fbArea.classList.add(isCorrect ? 'border-green-200' : 'border-red-200');
+
+        document.getElementById('submit-btn').classList.add('hidden');
+        document.getElementById('mcq-wrapper').classList.add('hidden');
+        document.getElementById('numeric-input-wrapper').classList.add('hidden');
+
+        msg.innerText  = isCorrect ? '✓ Correct! Great work.' : '✗ Not quite. Here is the solution:';
+        msg.className  = isCorrect
+            ? 'text-2xl font-black text-green-700 mb-4'
+            : 'text-2xl font-black text-red-700 mb-4';
+
+        sol.innerHTML = currentQ.solution;
+        fbArea.classList.remove('hidden');
+        renderMath();
+    }
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    window.onload = () => {
+        // Wait for MathJax to be ready before first render
+        if (window.MathJax) {
+            MathJax.startup.promise.then(() => newQuestion());
+        } else {
+            newQuestion();
         }
-
-        window.onload = newQuestion;
-    </script>
+    };
+</script>
 </body>
 </html>
