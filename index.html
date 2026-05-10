@@ -37,6 +37,20 @@
             -webkit-appearance: none; 
             margin: 0; 
         }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            width: 100%;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen font-sans">
@@ -103,58 +117,21 @@
 
             <!-- Empirical Rule Box -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                <h3 class="text-xl font-bold text-amber-800 mb-2 flex items-center">
-                    <span class="mr-2 text-2xl">📊</span> The 68-95-99.7 Rule
+                <h3 class="text-xl font-bold text-amber-800 mb-4 flex items-center">
+                    <span class="mr-2 text-2xl">🎥</span> The 68-95-99.7 Rule Explained
                 </h3>
                 
-                <!-- SVG Diagram (Normal Distribution) -->
-                <div class="w-full py-6 flex justify-center bg-slate-50 rounded-xl mb-4">
-                    <svg viewBox="0 0 500 220" class="max-w-xl w-full font-sans overflow-visible">
-                        <!-- Shaded Areas -->
-                        <!-- 99.7% area (Green) -->
-                        <path d="M 50,180 Q 150,180 200,100 T 250,20 T 300,100 T 450,180 L 50,180 Z" fill="#dcfce7" />
-                        <!-- 95% area (Blue) -->
-                        <path d="M 115,155 Q 165,155 200,100 T 250,20 T 300,100 T 385,155 L 115,155 Z" fill="#dbeafe" />
-                        <!-- 68% area (Red) -->
-                        <path d="M 183,115 Q 215,115 250,20 T 317,115 L 183,115 Z" fill="#fee2e2" />
-                        
-                        <!-- The Curve Outline -->
-                        <path d="M 20,180 Q 150,180 200,100 T 250,20 T 300,100 T 480,180" fill="none" stroke="#475569" stroke-width="2.5" />
-                        
-                        <!-- Center Line (Mean) -->
-                        <line x1="250" y1="20" x2="250" y2="180" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="3" />
-                        <text x="250" y="195" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">Mean (μ)</text>
-
-                        <!-- Standard Deviation Ticks & Labels -->
-                        <!-- -3 to +3 -->
-                        <g font-size="10" fill="#64748b" text-anchor="middle">
-                            <text x="50" y="195">μ - 3σ</text>
-                            <text x="115" y="195">μ - 2σ</text>
-                            <text x="183" y="195">μ - σ</text>
-                            <text x="317" y="195">μ + σ</text>
-                            <text x="385" y="195">μ + 2σ</text>
-                            <text x="450" y="195">μ + 3σ</text>
-                        </g>
-
-                        <!-- Horizontal Percentage Brackets -->
-                        <!-- 68% -->
-                        <line x1="183" y1="80" x2="317" y2="80" stroke="#b91c1c" stroke-width="1.5" />
-                        <line x1="183" y1="75" x2="183" y2="85" stroke="#b91c1c" stroke-width="1.5" />
-                        <line x1="317" y1="75" x2="317" y2="85" stroke="#b91c1c" stroke-width="1.5" />
-                        <text x="250" y="75" text-anchor="middle" font-size="14" font-weight="900" fill="#b91c1c">68%</text>
-
-                        <!-- 95% -->
-                        <line x1="115" y1="130" x2="385" y2="130" stroke="#1d4ed8" stroke-width="1.5" />
-                        <line x1="115" y1="125" x2="115" y2="135" stroke="#1d4ed8" stroke-width="1.5" />
-                        <line x1="385" y1="125" x2="385" y2="135" stroke="#1d4ed8" stroke-width="1.5" />
-                        <text x="250" y="125" text-anchor="middle" font-size="14" font-weight="900" fill="#1d4ed8">95%</text>
-
-                        <!-- 99.7% -->
-                        <line x1="50" y1="165" x2="450" y2="165" stroke="#15803d" stroke-width="1.5" />
-                        <line x1="50" y1="160" x2="50" y2="170" stroke="#15803d" stroke-width="1.5" />
-                        <line x1="450" y1="160" x2="450" y2="170" stroke="#15803d" stroke-width="1.5" />
-                        <text x="250" y="160" text-anchor="middle" font-size="14" font-weight="900" fill="#15803d">99.7%</text>
-                    </svg>
+                <!-- Video Embed -->
+                <div class="w-full bg-slate-900 rounded-xl overflow-hidden shadow-xl mb-6">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/mtbJbDwqWLE" 
+                            title="Empirical Rule Video Tutorial" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
@@ -176,6 +153,7 @@
 
         <!-- TAB 2: PRACTICE -->
         <div id="tab-practice" class="hidden">
+            <!-- (Practice content remains the same as before) -->
             <div class="bg-white rounded-3xl shadow-xl p-8 border border-slate-100">
                 <div class="flex justify-between items-center mb-6 border-b pb-4">
                     <span id="topic-label" class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic">Question Category</span>
