@@ -118,15 +118,15 @@
             <!-- Empirical Rule Box -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                 <h3 class="text-xl font-bold text-amber-800 mb-4 flex items-center">
-                    <span class="mr-2 text-2xl">🎥</span> The 68-95-99.7 Rule Explained
+                    <span class="mr-2 text-2xl">🎥</span> Standard Deviation Explained
                 </h3>
                 
-                <!-- Video Embed -->
+                <!-- Video Embed Updated -->
                 <div class="w-full bg-slate-900 rounded-xl overflow-hidden shadow-xl mb-6">
                     <div class="video-container">
                         <iframe 
                             src="https://www.youtube.com/embed/MRqtXL2WX2M" 
-                            title="Empirical Rule Video Tutorial" 
+                            title="Standard Deviation Video Tutorial" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                             allowfullscreen>
@@ -153,7 +153,6 @@
 
         <!-- TAB 2: PRACTICE -->
         <div id="tab-practice" class="hidden">
-            <!-- (Practice content remains the same as before) -->
             <div class="bg-white rounded-3xl shadow-xl p-8 border border-slate-100">
                 <div class="flex justify-between items-center mb-6 border-b pb-4">
                     <span id="topic-label" class="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest italic">Question Category</span>
@@ -252,9 +251,9 @@
             currentQ = {
                 answer: parseFloat(sigma.toFixed(2)),
                 solution: `
-                    <p><strong>Step 1: Calculate Mean ($\bar{x}$)</strong><br> Sum = ${sum}. $\bar{x} = ${sum} / 5 = ${mean}$.</p>
-                    <p><strong>Step 2: Average of Squares</strong><br> $(${data.map(d => d+'^2').join(' + ')}) / 5 = ${sumSq/5}$.</p>
-                    <p><strong>Step 3: Variance ($\sigma^2$)</strong><br> (Mean of Squares) $-$ (Square of Mean) $= ${sumSq/5} - ${mean}^2 = ${variance.toFixed(2)}$.</p>
+                    <p><strong>Step 1: Calculate Mean ($\bar{x}$)</strong><br> Sum = ${sum}. $\bar{x} = ${sum} / ${n} = ${mean.toFixed(2)}$.</p>
+                    <p><strong>Step 2: Average of Squares</strong><br> $(${data.map(d => d+'^2').join(' + ')}) / ${n} = ${sumSq} / ${n} = ${(sumSq/n).toFixed(2)}$.</p>
+                    <p><strong>Step 3: Variance ($\sigma^2$)</strong><br> (Mean of Squares) $-$ (Square of Mean) $= ${(sumSq/n).toFixed(2)} - ${mean.toFixed(2)}^2 = ${variance.toFixed(2)}$.</p>
                     <p><strong>Step 4: Standard Deviation ($\sigma$)</strong><br> $\sqrt{\text{Variance}} = \sqrt{${variance.toFixed(2)}} = ${sigma.toFixed(2)}$.</p>
                 `
             };
@@ -363,7 +362,9 @@
         }
 
         function checkAnswer() {
-            const user = parseFloat(document.getElementById('answer-field').value);
+            const userInput = document.getElementById('answer-field').value;
+            if (!userInput) return;
+            const user = parseFloat(userInput);
             handleResult(Math.abs(user - currentQ.answer) < 0.05);
         }
 
