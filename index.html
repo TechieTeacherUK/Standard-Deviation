@@ -64,13 +64,23 @@
                 <!-- Formula Box -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                     <h3 class="text-xl font-bold text-blue-800 mb-4 flex items-center">
-                        <span class="mr-2 text-2xl">📝</span> The Formula
+                        <span class="mr-2 text-2xl">📝</span> The Formulas
                     </h3>
-                    <p class="mb-4 text-slate-700">For both Raw and Grouped data, we use:</p>
-                    <div class="bg-slate-50 p-4 rounded-xl text-center text-xl font-mono">
-                        $$\sigma = \sqrt{\frac{\sum fx^2}{n} - \bar{x}^2}$$
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Raw Data</p>
+                            <div class="bg-slate-50 p-3 rounded-xl text-center text-lg font-mono">
+                                $$\sigma = \sqrt{\frac{\sum x^2}{n} - \bar{x}^2}$$
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Grouped Data (with frequencies)</p>
+                            <div class="bg-slate-50 p-3 rounded-xl text-center text-lg font-mono">
+                                $$\sigma = \sqrt{\frac{\sum fx^2}{n} - \bar{x}^2}$$
+                            </div>
+                        </div>
                     </div>
-                    <p class="mt-4 text-sm text-slate-500 italic font-medium">Tip: "Mean of the squares minus square of the mean."</p>
+                    <p class="mt-4 text-sm text-slate-500 italic font-medium">Variance ($\sigma^2$) is simply the value before you square root.</p>
                 </div>
 
                 <!-- Consistency Box -->
@@ -80,12 +90,12 @@
                     </h3>
                     <ul class="space-y-3 text-slate-700">
                         <li class="flex items-start">
-                            <span class="text-green-500 mr-2">✔</span>
-                            <span><strong>Small $\sigma$:</strong> Consistent, low spread, reliable.</span>
+                            <span class="text-green-500 mr-2 font-bold">✔</span>
+                            <span><strong>Small Standard Deviation ($\sigma$):</strong> Data is consistent and close to the mean.</span>
                         </li>
-                        <li class="flex items-start text-red-700">
-                            <span class="text-red-500 mr-2">✘</span>
-                            <span><strong>Large $\sigma$:</strong> Inconsistent, high spread, unreliable.</span>
+                        <li class="flex items-start">
+                            <span class="text-red-500 mr-2 font-bold">✘</span>
+                            <span><strong>Large Standard Deviation ($\sigma$):</strong> Data is spread out and inconsistent.</span>
                         </li>
                     </ul>
                 </div>
@@ -93,24 +103,41 @@
 
             <!-- Empirical Rule Box -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                <h3 class="text-xl font-bold text-amber-800 mb-4 flex items-center">
+                <h3 class="text-xl font-bold text-amber-800 mb-2 flex items-center">
                     <span class="mr-2 text-2xl">📊</span> The 68-95-99.7 Rule
                 </h3>
+                
+                <!-- SVG Diagram -->
+                <div class="w-full py-4 flex justify-center">
+                    <svg viewBox="0 0 400 160" class="max-w-md w-full">
+                        <!-- Curve -->
+                        <path d="M 20,140 Q 100,140 150,80 T 200,20 T 250,80 T 380,140" fill="none" stroke="#d97706" stroke-width="3" />
+                        <!-- Areas -->
+                        <rect x="160" y="20" width="80" height="120" fill="#fef3c7" opacity="0.5" />
+                        <text x="200" y="155" text-anchor="middle" font-size="10" font-weight="bold" fill="#92400e">Mean</text>
+                        <line x1="200" y1="20" x2="200" y2="140" stroke="#92400e" stroke-dasharray="4" />
+                        <!-- Brackets/Labels -->
+                        <line x1="160" y1="100" x2="240" y2="100" stroke="#b45309" stroke-width="1" />
+                        <text x="200" y="95" text-anchor="middle" font-size="12" font-weight="black" fill="#b45309">68%</text>
+                        <text x="160" y="155" text-anchor="middle" font-size="9" fill="#b45309">-1σ</text>
+                        <text x="240" y="155" text-anchor="middle" font-size="9" fill="#b45309">+1σ</text>
+                    </svg>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                    <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
-                        <p class="text-2xl font-black text-amber-900">68%</p>
-                        <p class="text-sm font-bold">Within $1\sigma$</p>
+                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-100">
+                        <p class="text-xl font-black text-amber-900">68%</p>
+                        <p class="text-xs font-bold">Within 1 Std Dev</p>
                     </div>
-                    <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
-                        <p class="text-2xl font-black text-amber-900">95%</p>
-                        <p class="text-sm font-bold">Within $2\sigma$</p>
+                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-100">
+                        <p class="text-xl font-black text-amber-900">95%</p>
+                        <p class="text-xs font-bold">Within 2 Std Devs</p>
                     </div>
-                    <div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
-                        <p class="text-2xl font-black text-amber-900">99.7%</p>
-                        <p class="text-sm font-bold">Within $3\sigma$</p>
+                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-100">
+                        <p class="text-xl font-black text-amber-900">99.7%</p>
+                        <p class="text-xs font-bold">Within 3 Std Devs</p>
                     </div>
                 </div>
-                <p class="mt-4 text-slate-600 text-sm italic">Note: For Example 4, a value $3\sigma$ below the mean represents the bottom 0.15% of the population.</p>
             </div>
         </div>
 
@@ -214,15 +241,14 @@
             currentQ = {
                 answer: parseFloat(sigma.toFixed(2)),
                 solution: `
-                    <p><strong>Step 1: Count $n$</strong><br> There are ${n} data points.</p>
-                    <p><strong>Step 2: Find Mean ($\bar{x}$)</strong><br> $\sum x = ${sum}$. $\bar{x} = ${sum} / 5 = ${mean}$.</p>
-                    <p><strong>Step 3: Average of Squares ($\frac{\sum x^2}{n}$)</strong><br> $(${data.map(d => d+'^2').join(' + ')}) / 5 = ${sumSq/5}$.</p>
-                    <p><strong>Step 4: Variance ($\sigma^2$)</strong><br> ${sumSq/5} - ${mean}^2 = ${variance.toFixed(2)}$.</p>
-                    <p><strong>Step 5: $\sigma$</strong><br> $\sqrt{${variance.toFixed(2)}} = ${sigma.toFixed(2)}$.</p>
+                    <p><strong>Step 1: Calculate Mean ($\bar{x}$)</strong><br> Sum = ${sum}. $\bar{x} = ${sum} / 5 = ${mean}$.</p>
+                    <p><strong>Step 2: Average of Squares</strong><br> $(${data.map(d => d+'^2').join(' + ')}) / 5 = ${sumSq/5}$.</p>
+                    <p><strong>Step 3: Variance ($\sigma^2$)</strong><br> (Mean of Squares) $-$ (Square of Mean) $= ${sumSq/5} - ${mean}^2 = ${variance.toFixed(2)}$.</p>
+                    <p><strong>Step 4: Standard Deviation ($\sigma$)</strong><br> $\sqrt{\text{Variance}} = \sqrt{${variance.toFixed(2)}} = ${sigma.toFixed(2)}$.</p>
                 `
             };
 
-            document.getElementById('question-text').innerText = "Find the standard deviation ($\sigma$) of these values:";
+            document.getElementById('question-text').innerText = "Calculate the standard deviation (σ) for the following data set:";
             document.getElementById('data-display').innerHTML = data.map(d => `<div class="bg-blue-50 border-2 border-blue-200 px-6 py-3 rounded-2xl font-mono text-xl text-blue-800 font-bold shadow-sm">${d}</div>`).join('');
         }
 
@@ -234,19 +260,23 @@
             currentQ = {
                 answer: "Group A",
                 solution: `
-                    <p>Standard deviation measures <strong>reliability/consistency</strong>.</p>
-                    <p>Group A has $\sigma = ${s1}$, while Group B has $\sigma = ${s2}$.</p>
-                    <p>Since Group A's $\sigma$ is much lower, its data is more tightly packed around the mean.</p>
+                    <p><strong>Plain English Explanation:</strong></p>
+                    <p>Standard deviation measures how much data "spreads" from the center.</p>
+                    <ul class="list-disc ml-5 space-y-2">
+                        <li>Group A has a standard deviation ($\sigma$) of <strong>${s1}</strong>.</li>
+                        <li>Group B has a standard deviation ($\sigma$) of <strong>${s2}</strong>.</li>
+                    </ul>
+                    <p>Because Group A has the <strong>smaller</strong> standard deviation, its results are more consistent (reliable).</p>
                 `
             };
 
-            document.getElementById('question-text').innerText = "Which experimental group was more consistent?";
+            document.getElementById('question-text').innerText = "Which group is more consistent based on their standard deviation (σ)?";
             document.getElementById('numeric-input-wrapper').classList.add('hidden');
             const mcq = document.getElementById('mcq-wrapper');
             mcq.classList.remove('hidden');
             mcq.innerHTML = `
-                <button onclick="checkMCQ('Group A')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm">Group A ($\sigma = ${s1}$)</button>
-                <button onclick="checkMCQ('Group B')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm">Group B ($\sigma = ${s2}$)</button>
+                <button onclick="checkMCQ('Group A')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group A (σ = ${s1})</button>
+                <button onclick="checkMCQ('Group B')" class="p-6 border-2 border-slate-200 rounded-2xl hover:border-blue-500 hover:bg-blue-50 text-xl font-bold transition-all shadow-sm text-slate-800">Group B (σ = ${s2})</button>
             `;
             document.getElementById('data-display').innerHTML = "";
         }
@@ -270,22 +300,20 @@
                 solution: `
                     <p><strong>Working Steps:</strong></p>
                     <ul class="list-disc ml-5 space-y-1">
-                        <li>$n$ (total freq) = ${n}</li>
-                        <li>$\sum fx = ${sumFx}$</li>
-                        <li>$\bar{x} = ${sumFx} / ${n} = ${mean}$</li>
-                        <li>$\sum fx^2 = ${sumFx2}$</li>
-                        <li>$\sigma^2 = (${sumFx2} / ${n}) - ${mean}^2 = ${var_.toFixed(2)}$</li>
-                        <li>$\sigma = \sqrt{${var_.toFixed(2)}} = ${sigma.toFixed(2)}$</li>
+                        <li>Total Frequency ($n$) = ${n}</li>
+                        <li>Mean ($\bar{x}$) = ${sumFx} / ${n} = ${mean}</li>
+                        <li>Variance ($\sigma^2$) = (${sumFx2} / ${n}) - ${mean}^2 = ${var_.toFixed(2)}</li>
+                        <li>Standard Deviation ($\sigma$) = $\sqrt{${var_.toFixed(2)}} = ${sigma.toFixed(2)}$</li>
                     </ul>
                 `
             };
 
-            document.getElementById('question-text').innerText = "Estimate $\sigma$ for this grouped frequency table:";
+            document.getElementById('question-text').innerText = "Estimate the standard deviation (σ) from this grouped table:";
             document.getElementById('data-display').innerHTML = `
                 <div class="w-full overflow-hidden border border-slate-200 rounded-xl">
                     <table class="w-full text-left bg-white">
                         <thead class="bg-slate-50 border-b">
-                            <tr><th class="p-3">Class Interval</th><th class="p-3">Freq ($f$)</th><th class="p-3">Mid ($x$)</th></tr>
+                            <tr><th class="p-3">Interval</th><th class="p-3">Freq ($f$)</th><th class="p-3">Midpoint ($x$)</th></tr>
                         </thead>
                         <tbody>
                             <tr><td class="p-3 border-b">0 - 5</td><td class="p-3 border-b">10</td><td class="p-3 border-b">2.5</td></tr>
@@ -303,14 +331,19 @@
             currentQ = {
                 answer: 0.15,
                 solution: `
-                    <p><strong>Recall Rule:</strong> 99.7% of data lies within $\pm 3\sigma$.</p>
-                    <p><strong>Analyze:</strong> 29.5g is exactly 3 standard deviations ($0.3$g) below the mean ($29.8$g).</p>
-                    <p><strong>Calculate:</strong> Outside $3\sigma$ is $100\% - 99.7\% = 0.3\%$.</p>
-                    <p><strong>Final Step:</strong> Since the curve is symmetric, the lower tail is half of $0.3\% = \mathbf{0.15\%}$.</p>
+                    <p><strong>Step-by-Step in Plain English:</strong></p>
+                    <ol class="list-decimal ml-5 space-y-3">
+                        <li><strong>Find the gap:</strong> The mean is 29.8g and we are checking 29.5g. The difference is 0.3g.</li>
+                        <li><strong>Convert to Std Devs:</strong> Since 1 standard deviation (σ) is 0.1g, a gap of 0.3g is <strong>exactly 3 standard deviations away</strong>.</li>
+                        <li><strong>Apply the Rule:</strong> We know that <strong>99.7%</strong> of data is within 3 standard deviations of the center.</li>
+                        <li><strong>Find the "Tails":</strong> This leaves $100\% - 99.7\% = 0.3\%$ of data outside that range (in the extreme ends).</li>
+                        <li><strong>Split the difference:</strong> Since we only want the probability of being <em>less than</em> 29.5g (the left tail), we divide that 0.3% by 2.</li>
+                        <li><strong>Result:</strong> $0.3\% / 2 = \mathbf{0.15\%}$.</li>
+                    </ol>
                 `
             };
 
-            document.getElementById('question-text').innerText = "A machine has mean weight 29.8g and σ = 0.1g. What % of items are expected to be less than 29.5g?";
+            document.getElementById('question-text').innerText = "A machine has a mean weight of 29.8g and a standard deviation (σ) of 0.1g. What % of items are expected to weigh less than 29.5g?";
             document.getElementById('data-display').innerHTML = "";
         }
 
@@ -338,7 +371,7 @@
                 msg.innerText = "Correct! Great work.";
                 msg.className = "text-2xl font-black text-green-700 mb-4";
             } else {
-                msg.innerText = "Not quite. Here is the step-by-step:";
+                msg.innerText = "Not quite. Here is the logic:";
                 msg.className = "text-2xl font-black text-red-700 mb-4";
             }
             
